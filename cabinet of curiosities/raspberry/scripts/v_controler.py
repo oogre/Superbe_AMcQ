@@ -1,14 +1,12 @@
 #!/usr/bin/python
-import ConfigParser,subprocess, getopt, sys, fadecontroler, time, os;
+import ConfigParser,subprocess, getopt, sys, time, os;
 
 config 		= ConfigParser.ConfigParser();
 config.readfp(open('./configuration.cfg'));
 
 # path configuration
-ROOT 		= config.get("GENERAL", "rootDir");
-DEBUG 		= config.get("GENERAL", "debug") == "True";
-SCRIPTS 	= str(ROOT + "scripts/");
-DBUSCONTROL = str(SCRIPTS + "dbuscontrol.sh");
+ROOT 		= os.path.dirname(os.path.abspath(__file__)) + "/";
+DBUSCONTROL = str(ROOT + "dbuscontrol.sh");
 
 # GPIO configuration
 PIN_A 		= config.get("GPIO", "PIN_A");
@@ -20,12 +18,13 @@ fadeOut 			= int(config.get("VIDEO", "fadeOut"));
 soundMin 			= config.get("VIDEO", "soundMin");
 soundMax 			= config.get("VIDEO", "soundMax");
 frameInterval 		= 1.0 / int(config.get("VIDEO", "frameRate"));
-videoFileActive 	= config.get("VIDEO", "active");
-videoFileStandBy	= config.get("VIDEO", "standby");
+videoFileActive 	= ROOT + config.get("VIDEO", "active");
+videoFileStandBy	= ROOT + config.get("VIDEO", "standby");
 
 # END configuration 
 
 # DEBUG VAR
+DEBUG 			= config.get("GENERAL", "debug") == "True";
 balance 		= True;
 balance_ticked 	= False;
 balance_time 	= int(config.get("GENERAL", "balance_time"));
