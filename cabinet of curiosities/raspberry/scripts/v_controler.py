@@ -48,7 +48,7 @@ def playAV(videoPath):
 	if DEBUG is False :
 		subprocess.Popen(["omxplayer", "-b", "-o", "local", "--alpha", "0", "--vol", "0.01", "--loop", "--no-osd", "--no-keys", videoPath ], stdin=subprocess.PIPE, stdout=subprocess.PIPE);
 	video = videoPath;
-	time.sleep(0.6);
+	time.sleep(1);
 
 def killAV():
 	global video
