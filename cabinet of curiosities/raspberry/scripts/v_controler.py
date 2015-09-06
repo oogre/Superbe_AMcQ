@@ -197,6 +197,7 @@ def main():
 	checkAVFile(videoFileStandBy);
 
 	while 1:
+		subprocess.Popen(["clear"], stdin=subprocess.PIPE, stdout=subprocess.PIPE);
 		mapGpioToVideo[checkGpio()]()
 		time.sleep(frameInterval)
 
