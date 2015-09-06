@@ -47,9 +47,7 @@ def playAV(videoPath):
 	# omxplayer -b -o local movie.mov
 	if DEBUG is False :
 		try:
-			popen = subprocess.Popen(["omxplayer", "-b", "-o", "local", "--alpha", "0", "--vol", "0.01", "--loop", "--no-osd", "--no-keys", videoPath ], stdin=subprocess.PIPE, stdout=subprocess.PIPE);
-
-			print popen.stderr.read(64) 
+			subprocess.Popen(["omxplayer", "-b", "-o", "local", "--alpha", "0", "--vol", "0.01", "--loop", "--no-osd", "--no-keys", videoPath ], stdin=subprocess.PIPE, stdout=subprocess.PIPE);
 		except Exception, e:
 			print "omx ERROR";
 		
@@ -59,7 +57,10 @@ def playAV(videoPath):
 def killAV():
 	global video
 	if DEBUG is False :
-		subprocess.call([DBUSCONTROL, "stop"]);
+		try:
+			subprocess.call([DBUSCONTROL, "stop"]);
+		except Exception, e:
+			print "DBUSCONTROL STOP ERROR";
 	video = False;
 
 def checkGpio():
@@ -103,7 +104,7 @@ def fade(alpha):
 			subprocess.call([DBUSCONTROL, "setalpha", str(alpha)]);
 			subprocess.call([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
 		except Exception, e:
-			print "DBUSCONTROL ERROR";
+			print "DBUSCONTROL ALPHA ERROR";
 		
 	return alpha
 
