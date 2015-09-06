@@ -46,7 +46,11 @@ def playAV(videoPath):
 	global video;
 	# omxplayer -b -o local movie.mov
 	if DEBUG is False :
-		subprocess.Popen(["omxplayer", "-b", "-o", "local", "--alpha", "0", "--vol", "0.01", "--loop", "--no-osd", "--no-keys", videoPath ], stdin=subprocess.PIPE, stdout=subprocess.PIPE);
+		try:
+			subprocess.Popen(["omxplayer", "-b", "-o", "local", "--alpha", "0", "--vol", "0.01", "--loop", "--no-osd", "--no-keys", videoPath ], stdin=subprocess.PIPE, stdout=subprocess.PIPE);
+		except Exception, e:
+			print "omx ERROR";
+		
 	video = videoPath;
 	time.sleep(1);
 
@@ -93,8 +97,12 @@ def checkAVFile(path):
 def fade(alpha):
 	alpha = min(max(alpha, 0), 255);
 	if DEBUG is False:
-		subprocess.call([DBUSCONTROL, "setalpha", str(alpha)]);
-		subprocess.call([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
+		try:
+			subprocess.call([DBUSCONTROL, "setalpha", str(alpha)]);
+			subprocess.call([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
+		except Exception, e:
+			print "DBUSCONTROL ERROR";
+		
 	return alpha
 
 def fader():
