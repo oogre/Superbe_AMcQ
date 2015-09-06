@@ -58,8 +58,8 @@ def killAV():
 	global video
 	if DEBUG is False :
 		try:
-			subprocess.Popen([DBUSCONTROL, "stop"]);
-			#subprocess.call([DBUSCONTROL, "stop"]);
+			#subprocess.Popen([DBUSCONTROL, "stop"]);
+			subprocess.call([DBUSCONTROL, "stop"]);
 		except Exception, e:
 			print "DBUSCONTROL STOP ERROR";
 	video = False;
@@ -102,10 +102,10 @@ def fade(alpha):
 	alpha = min(max(alpha, 0), 255);
 	if DEBUG is False:
 		try:
-			subprocess.Popen([DBUSCONTROL, "setalpha", str(alpha)]);
-			subprocess.Popen([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
-			#subprocess.call([DBUSCONTROL, "setalpha", str(alpha)]);
-			#subprocess.call([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
+			#subprocess.Popen([DBUSCONTROL, "setalpha", str(alpha)]);
+			#subprocess.Popen([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
+			subprocess.call([DBUSCONTROL, "setalpha", str(alpha)]);
+			subprocess.call([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
 		except Exception, e:
 			playAV(video);
 			print "DBUSCONTROL ALPHA ERROR";
