@@ -59,6 +59,7 @@ def killAV():
 	if DEBUG is False :
 		try:
 			#subprocess.Popen([DBUSCONTROL, "stop"]);
+			subprocess.call(["clear"]);
 			subprocess.call([DBUSCONTROL, "stop"]);
 		except Exception, e:
 			print "DBUSCONTROL STOP ERROR";
@@ -197,7 +198,6 @@ def main():
 	checkAVFile(videoFileStandBy);
 
 	while 1:
-		subprocess.call(["clear"]);
 		mapGpioToVideo[checkGpio()]()
 		time.sleep(frameInterval)
 
