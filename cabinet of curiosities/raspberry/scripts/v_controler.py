@@ -47,7 +47,9 @@ def playAV(videoPath):
 	# omxplayer -b -o local movie.mov
 	if DEBUG is False :
 		try:
-			subprocess.Popen(["omxplayer", "-b", "-o", "local", "--alpha", "0", "--vol", "0.01", "--loop", "--no-osd", "--no-keys", videoPath ], stdin=subprocess.PIPE, stdout=subprocess.PIPE);
+			p1 = subprocess.Popen(["omxplayer", "-b", "-o", "local", "--alpha", "0", "--vol", "0.01", "--loop", "--no-osd", "--no-keys", videoPath ], stdin=subprocess.PIPE, stdout=subprocess.PIPE);
+
+			print p1.stdout.read
 		except Exception, e:
 			print "omx ERROR";
 		
