@@ -84,6 +84,9 @@ def checkGpio():
 		else : 
 			return 1
 	else :
+		print "PIN_A : " + str(GPIO.input(PIN_A));
+		print "PIN_A : " + str(GPIO.input(PIN_B));
+		print " ";
 		if GPIO.input(PIN_A) | GPIO.input(PIN_B) :
 			return 1;
 		else : 
