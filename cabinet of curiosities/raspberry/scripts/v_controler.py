@@ -16,7 +16,9 @@ PIN_B 		= config.get("GPIO", "PIN_B");
 fadeIn 				= int(config.get("VIDEO", "fadeIn"));
 fadeOut 			= int(config.get("VIDEO", "fadeOut"));
 soundMin 			= config.get("VIDEO", "soundMin");
-soundMax 			= config.get("VIDEO", "soundMax");
+soundMaxStandBy 	= config.get("VIDEO", "soundMaxStandBy");
+soundMaxActive 		= config.get("VIDEO", "soundMaxActive");
+
 frameInterval 		= 1.0 / int(config.get("VIDEO", "frameRate"));
 videoFileActive 	= ROOT + config.get("VIDEO", "active");
 videoFileStandBy	= ROOT + config.get("VIDEO", "standby");
@@ -40,7 +42,7 @@ video 		= False;
 alpha		= 0;
 alpha_inc	= 255.0 / fadeIn
 alpha_dec	= 255.0 / fadeOut
-
+status		= False;
 
 def playAV(videoPath):
 	global video;
@@ -108,8 +110,14 @@ def fade(alpha):
 		try:
 			#subprocess.Popen([DBUSCONTROL, "setalpha", str(alpha)]);
 			#subprocess.Popen([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
+			vol = max(0.01, alpha / 255.0));
+			if status == "Active" : 
+				vol = min(vol, soundMaxActive);
+			else : 
+				vol = min(vol, soundMaxStandBy);
+			
 			subprocess.call([DBUSCONTROL, "setalpha", str(alpha)]);
-			subprocess.call([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
+			subprocess.call([DBUSCONTROL, "volume", str(vol)]);
 		except Exception, e:
 			playAV(video);
 			print "DBUSCONTROL ALPHA ERROR";
@@ -146,6 +154,7 @@ def standBy():
 		if alpha <= 0 :		# PERFUME HAVE TAKEN AWAY FROM IT S PLACE - VIDEO IS FADED TO 0 SO CHANGE THE VIDEO
 			killAV();
 			playAV(videoFileStandBy);
+			status = "StandBy";
 			fade_dir = "in"
 		else : 				# PERFUME HAVE TAKEN AWAY FROM IT S PLACE - VIDEO IS FADING TO 0
 			fade_dir = "out"
@@ -173,6 +182,7 @@ def active():
 		if alpha <= 0 :		# PERFUME HAVE TAKEN AWAY FROM IT S PLACE - VIDEO IS FADED TO 0 SO CHANGE THE VIDEO
 			killAV();
 			playAV(videoFileActive);
+			status = "Active";
 			fade_dir = "in"
 		else : 				# PERFUME HAVE TAKEN AWAY FROM IT S PLACE - VIDEO IS FADING TO 0
 			fade_dir = "out"
