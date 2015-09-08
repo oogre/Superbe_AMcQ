@@ -2,7 +2,7 @@
 //constante a changer :
 const int dureeChangement = 200;
 const int valVeille1 = 0;
-const int valActif1 = 0;
+const int valActif1 = 255;
 const int valVeille2 = 255;
 const int valActif2 = 0;
 const int dureeDelayLoop = 20;
@@ -23,6 +23,7 @@ boolean actif = false;
 int compteurMesureCycle = 0;
 
 void setup() {
+  initFlyingSensor();
   pinMode(ledAPin, OUTPUT);
   pinMode(ledBPin, OUTPUT);
   pinMode(pushPin, INPUT);
@@ -50,7 +51,7 @@ void loop() {
     digitalWrite(UStrigPin, HIGH);
     delayMicroseconds(10);
     digitalWrite(UStrigPin, LOW);
-    int distance = pulseIn(USechoPin, HIGH) / 58;
+    /*int distance = pulseIn(USechoPin, HIGH) / 58;
     if (distance < analogRead(seuilPin)) {
       actif = true;
       digitalWrite(ledAPin, HIGH);
@@ -60,13 +61,31 @@ void loop() {
       digitalWrite(ledAPin, LOW);
       digitalWrite(ledBPin, HIGH);
     }
-  //----- retour serie eventuel -----
-    if (serialEnable) {
-      Serial.print(distance);
-      Serial.print(" ");
-      Serial.println(analogRead(seuilPin));
+    */
+    switch (areYouSure(isRockFlying(getSensorValue()))) {
+      case 1 :  // ROCK IS FELL
+        actif = true;
+        digitalWrite(ledAPin, HIGH);
+        digitalWrite(ledBPin, LOW);
+        break;
+      case 0:   // ROCK IS FLYIN
+        actif = false;
+        digitalWrite(ledAPin, LOW);
+        digitalWrite(ledBPin, HIGH);
+        break;
+      case 2 :  // ROCK STATE NOT SURE
+        // NOTHING
+        break;
     }
-  //----- bouton inversion effet -----
+    //----- retour serie eventuel -----
+    if (serialEnable) {
+      Serial.print(" ");
+      Serial.print(analogRead(seuilPin));
+      Serial.print(" ");
+      Serial.println(actif);
+      
+    }
+    //----- bouton inversion effet -----
     if (digitalRead(pushPin) == LOW) {
       actif = !actif;
     }
@@ -77,10 +96,10 @@ void loop() {
     if (compteur < dureeChangement) compteur++;
   } else {
     if (compteur > 0) compteur--;
-  } 
+  }
 
   //----- DMX -----
-  DmxSimple.write(4, map(compteur, 0, dureeChangement, valVeille1, valActif1));
+  DmxSimple.write(7, map(compteur, 0, dureeChangement, valVeille1, valActif1));
   DmxSimple.write(6, map(compteur, 0, dureeChangement, valVeille2, valActif2));
 
   delay(dureeDelayLoop);

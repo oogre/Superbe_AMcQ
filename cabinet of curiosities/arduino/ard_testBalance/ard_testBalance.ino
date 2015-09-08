@@ -6,8 +6,8 @@ const int valVeille1 = 0;
 const int valActif1 = 255;
 const int valActif2 = 0;  //le seuilVeille2 est la respiration
 const int dureeRespiration = 200;
-const int valBasRespiration = 100;
-const int valHautRespiration = 255;
+const int valBasRespiration = 180;
+const int valHautRespiration = 200;
 const int dureeDelayLoop = 20;
 const boolean serialEnable = true;  //console Serie active ou pas
 
@@ -77,7 +77,7 @@ void loop() {
   analogWrite(lightAPin, map(compteur, 0, dureeChangement, valVeille1, valActif1));
   analogWrite(lightBPin, map(compteur, 0, dureeChangement, respiration, valActif2));
   DmxSimple.write(4, map(compteur, 0, dureeChangement, valVeille1, valActif1));
-  DmxSimple.write(6, map(compteur, 0, dureeChangement, respiration, valActif2));
+  DmxSimple.write(5, map(compteur, 0, dureeChangement, respiration, valActif2));
 
   //----- retour serie eventuel -----
   if (serialEnable) {
