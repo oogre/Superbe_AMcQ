@@ -116,8 +116,9 @@ def fade(alpha):
 				vol = min(vol, soundMaxActive);
 			else : 
 				vol = min(vol, soundMaxStandBy);
-			print str(vol);
-			print status;
+			#print str(vol);
+			#print status;
+			
 			subprocess.call([DBUSCONTROL, "setalpha", str(alpha)]);
 			subprocess.call([DBUSCONTROL, "volume", str(vol)]);
 		except Exception, e:
