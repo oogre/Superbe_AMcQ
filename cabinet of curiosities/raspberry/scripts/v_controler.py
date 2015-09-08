@@ -110,12 +110,12 @@ def fade(alpha):
 		try:
 			#subprocess.Popen([DBUSCONTROL, "setalpha", str(alpha)]);
 			#subprocess.Popen([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
-			vol = max(0.01, alpha / 255.0));
+			vol = max(0.01, alpha / 255.0);
 			if status == "Active" : 
 				vol = min(vol, soundMaxActive);
 			else : 
 				vol = min(vol, soundMaxStandBy);
-			
+
 			subprocess.call([DBUSCONTROL, "setalpha", str(alpha)]);
 			subprocess.call([DBUSCONTROL, "volume", str(vol)]);
 		except Exception, e:
