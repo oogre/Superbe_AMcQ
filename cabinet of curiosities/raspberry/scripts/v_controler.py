@@ -105,6 +105,7 @@ def checkAVFile(path):
 
 
 def fade(alpha):
+	global status;
 	alpha = min(max(alpha, 0), 255);
 	if DEBUG is False:
 		try:
@@ -136,6 +137,7 @@ def fader():
 
 def standBy():
 	global fade_dir;
+	global status;
 	global video;
 	
 	if False : 
@@ -165,6 +167,7 @@ def standBy():
 
 def active():
 	global video;
+	global status;
 	global fade_dir;
 
 	if False : 
