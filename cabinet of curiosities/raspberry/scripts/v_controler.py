@@ -15,9 +15,9 @@ PIN_B 		= config.get("GPIO", "PIN_B");
 # video configuration
 fadeIn 				= int(config.get("VIDEO", "fadeIn"));
 fadeOut 			= int(config.get("VIDEO", "fadeOut"));
-soundMin 			= config.get("VIDEO", "soundMin");
-soundMaxStandBy 	= config.get("VIDEO", "soundMaxStandBy");
-soundMaxActive 		= config.get("VIDEO", "soundMaxActive");
+soundMin 			= float(config.get("VIDEO", "soundMin"));
+soundMaxStandBy 	= float(config.get("VIDEO", "soundMaxStandBy"));
+soundMaxActive 		= float(config.get("VIDEO", "soundMaxActive"));
 
 frameInterval 		= 1.0 / int(config.get("VIDEO", "frameRate"));
 videoFileActive 	= ROOT + config.get("VIDEO", "active");
@@ -110,7 +110,7 @@ def fade(alpha):
 		try:
 			#subprocess.Popen([DBUSCONTROL, "setalpha", str(alpha)]);
 			#subprocess.Popen([DBUSCONTROL, "volume", str(max(0.01, alpha / 255.0))]);
-			vol = max(0.01, alpha / 255.0);
+			vol = max(soundMin, alpha / 255.0);
 			if status == "Active" : 
 				vol = min(vol, soundMaxActive);
 			else : 
